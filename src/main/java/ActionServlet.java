@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,6 +41,8 @@ public class ActionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        request.setCharacterEncoding("UTF-8");
         String todo = request.getParameter("todo");
         switch(todo)
         {
@@ -47,6 +50,11 @@ public class ActionServlet extends HttpServlet {
                 
                 break;
             case "connexionClient":
+                
+                String login = request.getParameter("login");
+                String password = request.getParameter("password");
+                
+                session.setAttribute("user", login);
                 
                 break;
             case "historiqueClient":
