@@ -19,6 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/ActionServlet"})
 public class ActionServlet extends HttpServlet {
 
+    @Override
+    public void init() throws ServletException {
+        super.init(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy(); //To change body of generated methods, choose Tools | Templates.
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,6 +40,44 @@ public class ActionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String todo = request.getParameter("todo");
+        switch(todo)
+        {
+            case "inscriptionClient":
+                
+                break;
+            case "connexionClient":
+                
+                break;
+            case "historiqueClient":
+                
+                break;
+            case "demandeInterventionClient":
+                
+                break;
+            case "nombreInterventionsClient":
+                
+                break;
+            case "connexionEmploye":
+                
+                break;    
+            case "consulterInterventionEmploye":
+                
+                break;
+            case "conclureInterventionEmploye":
+                
+                break;
+            case "tableauDeBordEmploye":
+                
+                break;
+            case "deconnexion":
+                
+                break;
+            default :
+                
+                break;
+        }
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
