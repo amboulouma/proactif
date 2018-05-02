@@ -4,6 +4,12 @@
  * and open the template in the editor.
  */
 
+import Actions.Action;
+import Actions.ConnexionClientAction;
+import Actions.ConnexionEmployeeAction;
+import fr.insalyon.dasi.proactif.dao.JpaUtil;
+import fr.insalyon.dasi.proactif.services.ServicesClient;
+import fr.insalyon.dasi.proactif.services.ServicesEmployee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -23,11 +29,13 @@ public class ActionServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
+        JpaUtil.init();
     }
 
     @Override
     public void destroy() {
         super.destroy(); //To change body of generated methods, choose Tools | Templates.
+        JpaUtil.destroy();
     }
 
     /**
@@ -44,6 +52,11 @@ public class ActionServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         request.setCharacterEncoding("UTF-8");
         String todo = request.getParameter("todo");
+        ServicesClient servicesClient = new ServicesClient();
+        ServicesEmployee servicesEmployee = new ServicesEmployee();
+        Action action;
+        String login;
+        String password;
         switch(todo)
         {
             case "inscriptionClient":
@@ -51,10 +64,16 @@ public class ActionServlet extends HttpServlet {
                 break;
             case "connexionClient":
                 
-                String login = request.getParameter("login");
-                String password = request.getParameter("password");
+                login = request.getParameter("login");
+                password = request.getParameter("password");
                 
-                session.setAttribute("user", login);
+                session.setAttribute("login", login);
+                session.setAttribute("password", password);
+                
+                action = new ConnexionClientAction(login, password, servicesClient);
+                
+                System.out.println(session.getAttribute("login"));
+                System.out.println(session.getAttribute("password"));
                 
                 break;
             case "historiqueClient":
@@ -66,9 +85,14 @@ public class ActionServlet extends HttpServlet {
             case "nombreInterventionsClient":
                 
                 break;
-            case "connexionEmploye":
-                
-                break;    
+            case "connexionEmployee":
+                login = request.getParameter("login");
+                password = request.getParameter("password");
+                session.setAttribute("login", login);
+                session.setAttribute("password", password);
+                action = new ConnexionEmployeeAction(login, password, servicesEmployee);
+                System.out.println(action.execute());                        
+                break;
             case "consulterInterventionEmploye":
                 
                 break;
@@ -85,7 +109,6 @@ public class ActionServlet extends HttpServlet {
                 
                 break;
         }
-        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
