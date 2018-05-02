@@ -24,9 +24,7 @@ public class ConnexionClientAction extends Action {
         this.servicesClient = servicesClient;
     }
     
-    @Override
     public boolean execute() {
-        
         if (servicesClient.connection(login, password) != null) {
             return true;
         }else{
