@@ -22,7 +22,6 @@ public class ConnexionEmployeeAction extends Action{
         this.login = login;
         this.password = password;
         this.servicesEmployee = servicesEmployee;
-        System.out.println(1); 
     }
     
     public boolean execute() {

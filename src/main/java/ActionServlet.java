@@ -7,6 +7,9 @@
 import Actions.Action;
 import Actions.ConnexionClientAction;
 import Actions.ConnexionEmployeeAction;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import fr.insalyon.dasi.proactif.dao.JpaUtil;
 import fr.insalyon.dasi.proactif.services.ServicesClient;
 import fr.insalyon.dasi.proactif.services.ServicesEmployee;
@@ -57,6 +60,8 @@ public class ActionServlet extends HttpServlet {
         Action action;
         String login;
         String password;
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
         switch(todo)
         {
             case "inscriptionClient":
@@ -91,7 +96,28 @@ public class ActionServlet extends HttpServlet {
                 session.setAttribute("login", login);
                 session.setAttribute("password", password);
                 action = new ConnexionEmployeeAction(login, password, servicesEmployee);
-                System.out.println(action.execute());                        
+                    //this.getServletContext().getRequestDispatcher("/accueilEmploye.html").forward(request, response);
+                    //response.sendRedirect("/accueilEmploye.html");
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                JsonObject jsonBoolean = new JsonObject();
+                jsonBoolean.addProperty("connected", action.execute());
+                out.println(gson.toJson(jsonBoolean));
+                
+                /*
+                response.setContentType("text/html;charset=UTF-8");
+                
+                // TODO output your page here. You may use following sample code. 
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet ActionServlet</title>");            
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Servlet ActionServlet at " + login + "</h1>");
+                out.println("</body>");
+                out.println("</html>");
+                */
+                
                 break;
             case "consulterInterventionEmploye":
                 
@@ -109,19 +135,19 @@ public class ActionServlet extends HttpServlet {
                 
                 break;
         }
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ActionServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ActionServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        /*response.setContentType("text/html;charset=UTF-8");
+        // TODO output your page here. You may use following sample code. 
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Servlet ActionServlet</title>");            
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Servlet ActionServlet at " + request.getContextPath() + "</h1>");
+        out.println("</body>");
+        out.println("</html>");
+        */
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
