@@ -12,7 +12,8 @@ import fr.insalyon.dasi.proactif.services.ServicesEmployee;
  *
  * @author cflorant
  */
-public class ConnexionEmployeeAction extends Action{
+/*
+public class ConnexionEmployeeAction extends ActionClient{
     String login;
     String password;
     ServicesEmployee servicesEmployee;
@@ -33,3 +34,4 @@ public class ConnexionEmployeeAction extends Action{
     }
 }
 
+*/

@@ -16,11 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class Action {
     public static final String RESULTS_FIELD = "results";
     
+    public Action() {
+        
+    }
     
+
     public abstract void execute(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, NotLoggedException, SignUpException, 
             NullAvailableProductException, ClientNullException, ConnectionFailException, 
             IncompatibleTypeException, MissingInformationException, InfoClientUpdateException, 
             ParseException;
-    
 }

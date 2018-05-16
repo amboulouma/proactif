@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Actions;
 
 import fr.insalyon.dasi.proactif.entities.Client;
@@ -13,7 +14,8 @@ import fr.insalyon.dasi.proactif.services.ServicesClient;
  *
  * @author cflorant, aminemboulouma
  */
-public class InscriptionClientAction extends Action {
+/*
+public class InscriptionClientAction extends ActionClient {
     private Client client;
     ServicesClient serviceClient;
 
@@ -31,3 +33,4 @@ public class InscriptionClientAction extends Action {
     }
     
 }
+*/
