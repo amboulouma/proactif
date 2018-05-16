@@ -5,6 +5,7 @@
  */
 
 import Actions.*;
+import Exceptions.*;
 import fr.insalyon.dasi.proactif.dao.JpaUtil;
 import fr.insalyon.dasi.proactif.entities.Client;
 import fr.insalyon.dasi.proactif.services.ServicesClient;
@@ -13,12 +14,22 @@ import fr.insalyon.dasi.proactif.services.ServicesEmployee;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import exception.ClientNullException;
+import exception.ConnectionFailException;
+import exception.IncompatibleTypeException;
+import exception.InfoClientUpdateException;
+import exception.MissingInformationException;
+import exception.NotLoggedException;
+import exception.NullAvailableProductException;
+import exception.SignUpException;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,18 +45,30 @@ import static sun.security.jgss.GSSUtil.login;
 @WebServlet(urlPatterns = {"/ActionServlet"})
 public class ActionServlet extends HttpServlet {
 
+    private ServicesClient servicesClient;
+    private ServicesEmployee servicesEmployee;
+
+    
+    public ActionServlet() {
+        this.servicesClient = new ServicesClient();
+        this.servicesEmployee = new ServicesEmployee();
+    }
+    
+    
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         JpaUtil.init();
     }
 
+    
     @Override
     public void destroy() {
         super.destroy(); //To change body of generated methods, choose Tools | Templates.
         JpaUtil.destroy();
     }
 
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -55,25 +78,23 @@ public class ActionServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        res.setContentType("application/json");
         
+        String todo = req.getParameter("todo");
+         
+        if(todo == null) {
+            // Handle todo null
+        }
         
-        HttpSession session = request.getSession(true);
-        request.setCharacterEncoding("UTF-8");
-        String todo = request.getParameter("todo");
-        ServicesClient servicesClient = new ServicesClient();
-        ServicesEmployee servicesEmployee = new ServicesEmployee();
-        Action action;
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        Gson gson;
-        JsonObject json;
-        
+        Action action = null;        
         
         switch(todo)
         {
             case "inscriptionClient":
+                /*
                 String nom = request.getParameter("nom");
                 String prenom = request.getParameter("prenom");
                 String civilite = request.getParameter("civilite");
@@ -95,20 +116,14 @@ public class ActionServlet extends HttpServlet {
                 System.out.println(test);
                 json.addProperty("inscrit", test);
                 out.println(gson.toJson(json));
+                */
                 break;
                 
                 
             case "connexionClient":
-                String login = request.getParameter("login");
-                password = request.getParameter("password");
-                session.setAttribute("login", login);
-                session.setAttribute("password", password);
-                action = new ConnexionClientAction(login, password, servicesClient);
-                gson = new GsonBuilder().setPrettyPrinting().create();
-                json = new JsonObject();
-                json.addProperty("connected", action.execute());
-                out.println(gson.toJson(json));
+                action = new ConnexionClientAction(servicesClient);
                 break;
+                
             case "historiqueClient":
                 
                 break;
@@ -119,6 +134,7 @@ public class ActionServlet extends HttpServlet {
                 
                 break;
             case "connexionEmployee":
+                /*
                 login = request.getParameter("login");
                 password = request.getParameter("password");
                 session.setAttribute("login", login);
@@ -128,7 +144,9 @@ public class ActionServlet extends HttpServlet {
                 json = new JsonObject();
                 json.addProperty("connected", action.execute());
                 out.println(gson.toJson(json));
+                */
                 break;
+                
             case "consulterInterventionEmploye":
                 
                 break;
@@ -142,22 +160,71 @@ public class ActionServlet extends HttpServlet {
                 
                 break;
             default :
+                // add not found action handler
+                break;
+        }
+        
+        boolean executed = false;
+        
+        try {
+            action.execute(req, res);
+            executed = true;
+        } catch (NotLoggedException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SignUpException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullAvailableProductException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClientNullException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionFailException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IncompatibleTypeException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MissingInformationException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InfoClientUpdateException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        switch(todo)
+        {
+            case "inscriptionClient":
+                
+                break;
+            case "connexionClient":
+                Client user = (Client) req.getAttribute(Action.RESULTS_FIELD);
+                res.getWriter().print(new Gson().toJson(user));
+                break;
+                
+            case "historiqueClient":
+                
+                break;
+            case "demandeInterventionClient":
+                
+                break;
+            case "nombreInterventionsClient":
+                
+                break;
+            case "connexionEmployee":
+                
+                break;
+            case "consulterInterventionEmploye":
+                
+                break;
+            case "conclureInterventionEmploye":
+                
+                break;
+            case "tableauDeBordEmploye":
+                
+                break;
+            case "deconnexion":
                 
                 break;
         }
-        /*response.setContentType("text/html;charset=UTF-8");
-        // TODO output your page here. You may use following sample code. 
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Servlet ActionServlet</title>");            
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>Servlet ActionServlet at " + request.getContextPath() + "</h1>");
-        out.println("</body>");
-        out.println("</html>");
-        */
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
