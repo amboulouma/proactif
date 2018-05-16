@@ -4,17 +4,16 @@
  * and open the template in the editor.
  */
 
-import Actions.Action;
-import Actions.ConnexionClientAction;
-import Actions.ConnexionEmployeeAction;
-import Actions.InscriptionClientAction;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import Actions.*;
 import fr.insalyon.dasi.proactif.dao.JpaUtil;
 import fr.insalyon.dasi.proactif.entities.Client;
 import fr.insalyon.dasi.proactif.services.ServicesClient;
 import fr.insalyon.dasi.proactif.services.ServicesEmployee;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -30,7 +29,7 @@ import static sun.security.jgss.GSSUtil.login;
 
 /**
  *
- * @author cflorant
+ * @author Amine Boulouma, Clément Florant
  */
 @WebServlet(urlPatterns = {"/ActionServlet"})
 public class ActionServlet extends HttpServlet {
@@ -58,6 +57,8 @@ public class ActionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        
         HttpSession session = request.getSession(true);
         request.setCharacterEncoding("UTF-8");
         String todo = request.getParameter("todo");
