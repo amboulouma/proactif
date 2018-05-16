@@ -5,31 +5,48 @@
  */
 package Actions;
 
-import fr.insalyon.dasi.proactif.services.ServicesClient;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import fr.insalyon.dasi.proactif.entities.Employee;
 import fr.insalyon.dasi.proactif.services.ServicesEmployee;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author cflorant
  */
-public class ConnexionEmployeeAction extends Action{
-    String login;
-    String password;
-    ServicesEmployee servicesEmployee;
+public class ConnexionEmployeeAction extends ActionEmployee{
+    
+    Gson gson;
+    JsonObject json;
 
-    public ConnexionEmployeeAction(String login, String password, ServicesEmployee servicesEmployee) {
-        super();
-        this.login = login;
-        this.password = password;
-        this.servicesEmployee = servicesEmployee;
+    public ConnexionEmployeeAction(ServicesEmployee servicesEmployee) {
+        super(servicesEmployee);
     }
     
-    public boolean execute() {
-        if (servicesEmployee.connection(this.login, this.password) != null) {
-            return true;
+    
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        HttpSession session = request.getSession(true);
+        session.setAttribute("login", login);
+        session.setAttribute("password", password);
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        json = new JsonObject();
+        PrintWriter out = response.getWriter();
+        Employee e = servicesEmployee.connection(login, password);
+        if (e != null) {
+            session.setAttribute("employe", e);
+            json.addProperty("connected", true);
         }else{
-            return false;
+            json.addProperty("connected", false);
         }
+        out.println(gson.toJson(json));
     }
 }
 

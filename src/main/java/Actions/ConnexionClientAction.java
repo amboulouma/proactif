@@ -7,28 +7,13 @@ package Actions;
 
 import fr.insalyon.dasi.proactif.entities.Client;
 import fr.insalyon.dasi.proactif.services.ServicesClient;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author cflorant
  */
-public class ConnexionClientAction extends Action {
-    String login;
-    String password;
-    ServicesClient servicesClient;
-
-    public ConnexionClientAction(String login, String password, ServicesClient servicesClient) {
-        super();
-        this.login = login;
-        this.password = password;
-        this.servicesClient = servicesClient;
-    }
+public class ConnexionClientAction {
     
-    public boolean execute() {
-        if (servicesClient.connection(login, password) != null) {
-            return true;
-        }else{
-            return false;
-        }
-    }
 }

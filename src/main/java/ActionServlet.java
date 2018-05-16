@@ -5,28 +5,17 @@
  */
 
 import Actions.Action;
-import Actions.ConnexionClientAction;
 import Actions.ConnexionEmployeeAction;
-import Actions.InscriptionClientAction;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import Actions.ConsulterInterventionEmployeeAction;
 import fr.insalyon.dasi.proactif.dao.JpaUtil;
-import fr.insalyon.dasi.proactif.entities.Client;
 import fr.insalyon.dasi.proactif.services.ServicesClient;
 import fr.insalyon.dasi.proactif.services.ServicesEmployee;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import static sun.security.jgss.GSSUtil.login;
 
 /**
  *
@@ -58,22 +47,19 @@ public class ActionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
         request.setCharacterEncoding("UTF-8");
         String todo = request.getParameter("todo");
         ServicesClient servicesClient = new ServicesClient();
         ServicesEmployee servicesEmployee = new ServicesEmployee();
         Action action;
-        PrintWriter out = response.getWriter();
         response.setContentType("application/json");
-        Gson gson;
-        JsonObject json;
         
+        action = null;
         
         switch(todo)
         {
             case "inscriptionClient":
-                String nom = request.getParameter("nom");
+                /*String nom = request.getParameter("nom");
                 String prenom = request.getParameter("prenom");
                 String civilite = request.getParameter("civilite");
                 String adresse = request.getParameter("adresse");
@@ -93,12 +79,12 @@ public class ActionServlet extends HttpServlet {
                 boolean test = action.execute();
                 System.out.println(test);
                 json.addProperty("inscrit", test);
-                out.println(gson.toJson(json));
+                out.println(gson.toJson(json));*/
                 break;
                 
                 
             case "connexionClient":
-                String login = request.getParameter("login");
+                /*String login = request.getParameter("login");
                 password = request.getParameter("password");
                 session.setAttribute("login", login);
                 session.setAttribute("password", password);
@@ -106,7 +92,7 @@ public class ActionServlet extends HttpServlet {
                 gson = new GsonBuilder().setPrettyPrinting().create();
                 json = new JsonObject();
                 json.addProperty("connected", action.execute());
-                out.println(gson.toJson(json));
+                out.println(gson.toJson(json));*/
                 break;
             case "historiqueClient":
                 
@@ -118,18 +104,10 @@ public class ActionServlet extends HttpServlet {
                 
                 break;
             case "connexionEmployee":
-                login = request.getParameter("login");
-                password = request.getParameter("password");
-                session.setAttribute("login", login);
-                session.setAttribute("password", password);
-                action = new ConnexionEmployeeAction(login, password, servicesEmployee);
-                gson = new GsonBuilder().setPrettyPrinting().create();
-                json = new JsonObject();
-                json.addProperty("connected", action.execute());
-                out.println(gson.toJson(json));
+                action = new ConnexionEmployeeAction(servicesEmployee);
                 break;
             case "consulterInterventionEmploye":
-                
+                action = new ConsulterInterventionEmployeeAction(servicesEmployee);
                 break;
             case "conclureInterventionEmploye":
                 
@@ -144,18 +122,14 @@ public class ActionServlet extends HttpServlet {
                 
                 break;
         }
-        /*response.setContentType("text/html;charset=UTF-8");
-        // TODO output your page here. You may use following sample code. 
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Servlet ActionServlet</title>");            
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>Servlet ActionServlet at " + request.getContextPath() + "</h1>");
-        out.println("</body>");
-        out.println("</html>");
-        */
+        try{
+            if (action != null)
+                action.execute(request, response);
+        }
+        catch(IOException e)
+        {
+            
+        }
         
     }
 
