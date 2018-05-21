@@ -40,7 +40,6 @@ public class ConsulterInterventionEmployeeAction extends ActionEmployee{
         json.addProperty("firstNameClient", i.getClient().getFirstName());
         json.addProperty("description", i.getDescription());
         json.addProperty("date", i.getCreationDate().toString());
-        json.addProperty("type", i.getType());
         out.println(gson.toJson(json));
     }
 }

@@ -5,13 +5,17 @@
  */
 package Actions;
 
+import Exceptions.IncompatibleTypeException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import Exceptions.*;
 import fr.insalyon.dasi.proactif.entities.Employee;
 import fr.insalyon.dasi.proactif.services.ServicesEmployee;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,25 +24,31 @@ import javax.servlet.http.HttpSession;
  *
  * @author cflorant
  */
+
 public class ConnexionEmployeeAction extends ActionEmployee{
     
     Gson gson;
     JsonObject json;
 
+
     public ConnexionEmployeeAction(ServicesEmployee servicesEmployee) {
         super(servicesEmployee);
     }
     
-    
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        HttpSession session = request.getSession(true);
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, NotLoggedException, SignUpException, 
+            NullAvailableProductException, ClientNullException, ConnectionFailException, 
+            IncompatibleTypeException, MissingInformationException, InfoClientUpdateException, 
+            ParseException, IOException
+    {
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        HttpSession session = req.getSession(true);
         session.setAttribute("login", login);
         session.setAttribute("password", password);
         gson = new GsonBuilder().setPrettyPrinting().create();
         json = new JsonObject();
-        PrintWriter out = response.getWriter();
+        PrintWriter out = res.getWriter();
         Employee e = servicesEmployee.connection(login, password);
         if (e != null) {
             session.setAttribute("employe", e);
@@ -49,4 +59,5 @@ public class ConnexionEmployeeAction extends ActionEmployee{
         out.println(gson.toJson(json));
     }
 }
+
 

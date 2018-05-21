@@ -5,17 +5,31 @@
  */
 package Actions;
 
+import Exceptions.*;
 import java.io.IOException;
+
+
+import java.text.ParseException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author cflorant
+ * @author Amine Boulouma, Clément Florant
  */
 public abstract class Action {
-    
+
     public static final String RESULTS_FIELD = "results";
     
-    public abstract void execute(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    public Action() {
+        
+    }
+    
+
+    public abstract void execute(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, NotLoggedException, SignUpException, 
+            NullAvailableProductException, ClientNullException, ConnectionFailException, 
+            IncompatibleTypeException, MissingInformationException, InfoClientUpdateException, 
+            ParseException, IOException;
 }

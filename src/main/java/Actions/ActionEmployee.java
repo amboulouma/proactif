@@ -28,7 +28,12 @@ public abstract class ActionEmployee extends Action{
         this.servicesEmployee = servicesEmployee;
     }
     
-    public abstract void execute(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     
     public boolean isEmployee(HttpServletRequest request, HttpServletResponse response)
     {

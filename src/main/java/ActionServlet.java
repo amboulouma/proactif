@@ -4,13 +4,25 @@
  * and open the template in the editor.
  */
 
-import Actions.Action;
-import Actions.ConnexionEmployeeAction;
-import Actions.ConsulterInterventionEmployeeAction;
+
+
+
+import Actions.*;
+import Exceptions.*;
+
 import fr.insalyon.dasi.proactif.dao.JpaUtil;
 import fr.insalyon.dasi.proactif.services.ServicesClient;
 import fr.insalyon.dasi.proactif.services.ServicesEmployee;
+
+import com.google.gson.Gson;
+import fr.insalyon.dasi.proactif.entities.Client;
+
 import java.io.IOException;
+
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,23 +31,36 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author cflorant
+ * @author Amine Boulouma, Clément Florant
  */
 @WebServlet(urlPatterns = {"/ActionServlet"})
 public class ActionServlet extends HttpServlet {
 
+    private ServicesClient servicesClient;
+    private ServicesEmployee servicesEmployee;
+
+    
+    public ActionServlet() {
+        this.servicesClient = new ServicesClient();
+        this.servicesEmployee = new ServicesEmployee();
+    }
+    
+    
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         JpaUtil.init();
+        // servicesEmployee.createEmployees(); // Ajouter cette ligne pour créer les employés dans la base de donnees
     }
 
+    
     @Override
     public void destroy() {
         super.destroy(); //To change body of generated methods, choose Tools | Templates.
         JpaUtil.destroy();
     }
 
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,21 +70,29 @@ public class ActionServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String todo = request.getParameter("todo");
-        ServicesClient servicesClient = new ServicesClient();
-        ServicesEmployee servicesEmployee = new ServicesEmployee();
-        Action action;
-        response.setContentType("application/json");
+        req.setCharacterEncoding("UTF-8");
+        res.setContentType("application/json");
+  
+        String todo = req.getParameter("todo");
+         
+        if(todo == null) {
+            // Handle todo null
+        }
+
+        Action action = null;
         
-        action = null;
         
         switch(todo)
         {
             case "inscriptionClient":
+
                 /*String nom = request.getParameter("nom");
+
+                /*
+                String nom = request.getParameter("nom");
+
                 String prenom = request.getParameter("prenom");
                 String civilite = request.getParameter("civilite");
                 String adresse = request.getParameter("adresse");
@@ -80,20 +113,14 @@ public class ActionServlet extends HttpServlet {
                 System.out.println(test);
                 json.addProperty("inscrit", test);
                 out.println(gson.toJson(json));*/
+
                 break;
                 
                 
             case "connexionClient":
-                /*String login = request.getParameter("login");
-                password = request.getParameter("password");
-                session.setAttribute("login", login);
-                session.setAttribute("password", password);
-                action = new ConnexionClientAction(login, password, servicesClient);
-                gson = new GsonBuilder().setPrettyPrinting().create();
-                json = new JsonObject();
-                json.addProperty("connected", action.execute());
-                out.println(gson.toJson(json));*/
+                //action = new ConnexionClientAction(servicesClient);
                 break;
+                
             case "historiqueClient":
                 
                 break;
@@ -106,6 +133,7 @@ public class ActionServlet extends HttpServlet {
             case "connexionEmployee":
                 action = new ConnexionEmployeeAction(servicesEmployee);
                 break;
+                
             case "consulterInterventionEmploye":
                 action = new ConsulterInterventionEmployeeAction(servicesEmployee);
                 break;
@@ -119,20 +147,74 @@ public class ActionServlet extends HttpServlet {
                 
                 break;
             default :
+                // add not found action handler
+                break;
+        }
+        
+        boolean executed = false;
+        
+        try {
+            action.execute(req, res);
+            executed = true;
+        } catch (NotLoggedException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SignUpException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullAvailableProductException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClientNullException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConnectionFailException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MissingInformationException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InfoClientUpdateException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IncompatibleTypeException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex){
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        switch(todo)
+        {
+            case "inscriptionClient":
+                
+                break;
+            case "connexionClient":
+                Client user = (Client) req.getAttribute(Action.RESULTS_FIELD);
+                res.getWriter().print(new Gson().toJson(user));
+                break;
+                
+            case "historiqueClient":
+                
+                break;
+            case "demandeInterventionClient":
+                
+                break;
+            case "nombreInterventionsClient":
+                
+                break;
+            case "connexionEmployee":
+                
+                break;
+            case "consulterInterventionEmploye":
+                
+                break;
+            case "conclureInterventionEmploye":
+                
+                break;
+            case "tableauDeBordEmploye":
+                
+                break;
+            case "deconnexion":
                 
                 break;
         }
-        try{
-            if (action != null)
-                action.execute(request, response);
-        }
-        catch(IOException e)
-        {
-            
-        }
-        
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
