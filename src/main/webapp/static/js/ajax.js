@@ -1,4 +1,31 @@
-function connexion() {
+function connexionClient() {
+    var champLogin = $('#champ-login').val();
+    var champPassword = $('#champ-password').val();
+
+    $('#message').html('Connexion en cours...');
+
+    $.ajax({
+        url: './ActionServlet',
+        method: 'POST',
+        data: {
+            todo: 'connexionClient',
+            login: champLogin,
+            password: champPassword
+        },
+        dataType: 'json'
+    }).done(function (data) {
+        console.log(data);
+        if (data != null)
+            window.location = "accueilClient.html";
+        else{
+            $('#message').html('Identifiants non valides, veuillez réessayer ...');
+        }
+
+    });
+}
+
+
+function connexionEmploye() {
     var champLogin = $('#champ-login').val();
     var champPassword = $('#champ-password').val();
     $('#message').html('Connexion en cours...');
@@ -65,8 +92,16 @@ $(document).ready(function () {
     });
     
     
-    $('#bouton-connexion').on('click', function () {
+    $('#bouton-connexion-client').on('click', function () {
         console.log('Click sur le bouton "Se Connecter"');
-        connexion();
+        connexionClient();
     });
+    
+    
+    $('#bouton-connexion-employe').on('click', function () {
+        console.log('Click sur le bouton "Se Connecter"');
+        connexionEmploye();
+    });
+    
+    
 });
