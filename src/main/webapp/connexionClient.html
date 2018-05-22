@@ -4,14 +4,29 @@
     <head>
         <title>Connexion Client</title>
         <meta charset="UTF-8">
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
     </head>
     <body>
         <h1>Login Client</h1>
-        Identifiant : <input type="text" id="champ-login" name="login" placeholder="votre identifiant" /><br>
-        Mot de passe : <input type="password" id="champ-password" name="password" /><br>
-        <button id="bouton-connexion-client">Se connecter</button>   
+        
+        <div class="form-group">
+          <label for="exampleInputEmail1">Identifiant</label>
+          <input type="email" class="form-control" id="champ-login" aria-describedby="emailHelp" placeholder="votre identifiant">
+          <small id="emailHelp" class="form-text text-muted">Vous ne devez partager votre email avec personne.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Mot de passe</label>
+          <input type="password" class="form-control" id="champ-password" placeholder="votre mot de passe">
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Mémoriser</label>
+        </div>
+        <button class="btn btn-primary" id="bouton-connexion-client">Se connecter</button>
         <div id="message"></div>
+        
+        
         
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="static/js/ajax.js"></script>
