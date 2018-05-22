@@ -45,36 +45,6 @@
                     center: {lat: 45.7601424, lng: 4.8961779},
                     zoom: 13
                 });
-
-                var infowindow = makeInfoWindow('');
-
-                var marker = new google.maps.Marker({
-                    map: googleMapInstance,
-                    position: {lat: 45.782122, lng: 4.872735},
-                    title: "Département IF, INSA de Lyon",
-                    //icon: {url: './image/bird.png', scaledSize: new google.maps.Size(32, 32)}
-                });
-
-                marker.addListener('click', function () {
-
-                    infowindow.setContent('<div>Information: ' + marker.title + '</div>');
-                    infowindow.open(googleMapInstance, marker);
-                });
-
-                var marker2 = new google.maps.Marker({
-                    map: googleMapInstance,
-                    position: {lat: 45.782592, lng: 4.878238},
-                    title: "Entrée principale, INSA de Lyon",
-                    //icon: {url: './image/snake.png', scaledSize: new google.maps.Size(32, 32)}
-                });
-
-                marker2.addListener('click', function () {
-
-                    infowindow.setContent('<div>Information: ' + marker2.title + '</div>');
-                    infowindow.open(googleMapInstance, marker2);
-                });
-
-                // Simuler un appel AJAX (attente 5s)
                 
                 $.ajax({
                     url: './ActionServlet',
@@ -85,64 +55,87 @@
                     dataType: 'json'
                 }).done(function (data) {
                     generateMarkers(data, googleMapInstance)
-                    alert(data[1].client.address);
-                    /*alert(data.interventions);
-                    var num = 0;
-                    alert(data.Intervention + num.toString());
-                    num = 1;
-                    alert(data.Intervention + num.toString());*/
                 });
             }
 
             function generateMarkers(data, googleMapInstance) {
                 
+                var infowindow = makeInfoWindow('');
+                
                 var geocoder = new google.maps.Geocoder();
                 
-                for (var iter = 0; iter < data.length; iter++) {
+                var iter = 0;
+                
+                for (iter = 0; iter < data.length; iter++) {
                     
                     geocoder.geocode({'address': data[iter].client.address}, function(results, status) {
+                        if (status === 'OK') {
+                            iter ++;
+                            var marker = new google.maps.Marker({
+                            map: googleMapInstance,
+                            position: results[0].geometry.location,
+                            title: 'Intervention #'+(iter-2)
+                            
+                          });
+                          var type;
+                          var solved = false;
+                          var state;
+                          var fin = '';
+                          if (data[iter-3].pet == undefined && data[iter-3].object == undefined)
+                            {
+                                type = 'Incident';
+                            }
+                            else if (data[iter-3].pet == undefined)
+                            {
+                                type = 'Delivery';
+                            }
+                            else
+                            {
+                                type = 'Pet';
+                            }
+                            if (data[iter-3].resolutionDate == undefined)
+                            {
+                                solved = false;
+                            }
+                            if (solved == true)
+                            {
+                                state = 'Resolue';
+                                fin = 'Date et heure de fin : ' + data[iter-3].resolutionDate + '<br/>';
+                            }
+                            else
+                            {
+                                state = 'En cours ...';
+                            }
+                            attachInfoWindow(
+                            marker, infowindow,
+                            '<div><strong><a href="./endroit.html?' + (iter-2) + '">Intervention #' + (iter-2) +
+                            '</a></strong><br/>Lieu de l\'intervention numéro ' + (iter-2) + '<br/>' +
+                            'Type : ' + type + '<br/>' +'Description : ' + data[iter-3].description + '<br/>' +
+                            'Client : ' + data[iter-3].client.firstName + ' ' + data[iter-3].client.name + '<br/>' +
+                            'Adresse : ' + data[iter-3].client.address + '<br/>' +
+                            'Date et heure de la demande : ' + data[iter-3].creationDate + '<br/>' +
+                            fin +
+                            'Etat : '+ state + '</div>'
+                            );
+                        } else {
+                          alert('Geocode was not successful for the following reason: ' + status);
+                        }
+                    });
+                    
+                  
+                }
+
+            }
+            
+            function GenerateCoordinates(address){
+                geocoder.geocode({'address': address}, function(results, status) {
                     if (status === 'OK') {
-                        
-                      var marker = new google.maps.Marker({
-                        map: googleMapInstance,
-                        position: results[0].geometry.location,
-                        //title: 'Endroit #'
-                      });
+                        return results[0].geometry.location;
                     } else {
                       alert('Geocode was not successful for the following reason: ' + status);
                     }
-                    
                   });
-                }
-                
-                
-                
-                // Petite popup Google Maps
-                var infowindow = makeInfoWindow('');
-
-                /*var position = {lat: 45.782122, lng: 4.872735};
-
-                for (var i = 0; i < 100; i++) {
-
-                    var iconImage = null; // marker par défaut
-                    if (i % 2 === 0) {
-                        // image pour marker personnalisé
-                        iconImage = {url: './image/UnderConstruction.png', scaledSize: new google.maps.Size(32, 32)}
-                    }
-
-                    var marker = new google.maps.Marker({
-                        map: googleMapInstance,
-                        position: {lat: position.lat + (Math.random() - 0.5) / 10.0, lng: position.lng + 2 * (Math.random() - 0.5) / 10.0},
-                        title: 'Endroit #' + i,
-                        icon: iconImage
-                    });
-
-                    attachInfoWindow(
-                            marker, infowindow,
-                            '<div><strong><a href="./endroit.html?' + i + '">Endroit #' + i + '</a></strong><br/>Ceci est l\'endroit charmant numéro ' + i + '<br/>' + 'Incroyable !' + '</div>'
-                            );
-                }*/
-
+                  
             }
 
         </script>
