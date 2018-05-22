@@ -1,9 +1,7 @@
 function connexion() {
     var champLogin = $('#champ-login').val();
     var champPassword = $('#champ-password').val();
-
     $('#message').html('Connexion en cours...');
-
     $.ajax({
         url: './ActionServlet',
         method: 'POST',
@@ -19,17 +17,56 @@ function connexion() {
         else{
             $('#message').html('Identifiants non valides, veuillez réessayer ...');
         }
-        // si connexion pas ok afficher un texte dans la div message :
-        //$('#message').html('Echec de la connexion');
+    });
+}
+
+
+function inscription() {
+    var champNom = $('#champ-nom').val();
+    var champPrenom = $('#champ-prenom').val();
+    var champCivilite = $('#champ-civilite').val();
+    var champAdresse = $('#champ-adresse').val();
+    var champTel = $('#champ-tel').val();
+    var champDate = $('#champ-date').val();
+    var champEmail = $('#champ-email').val();
+    var champPassword = $('#champ-password').val();
+    var champCPassword = $('#champ-cpassword').val();
+    $('#message').html('Inscription en cours...');
+    $.ajax({
+        url: './ActionServlet',
+        method: 'POST',
+        data: {
+            todo: 'inscriptionClient',
+            nom: champNom,
+            prenom: champPrenom,
+            civilite: champCivilite,
+            adresse: champAdresse,
+            tel: champTel,
+            date: champDate,
+            email: champEmail,
+            password: champPassword,
+            cpassword: champCPassword
+        },
+        dataType: 'json'
+    }).done(function (data) {
+        console.log(data);
+        if (data != null)
+            window.location = "connexionClient.html";
+        else{
+            $('#message').html('Saisie non valide, veuillez réessayer ...');
+        }
     });
 }
 
 $(document).ready(function () {
-    // ajout d'un "handler" sur le clic du bouton de connexion
+    $('#bouton-inscription').on('click', function () {
+        console.log('Click sur le bouton "S\'enregistrer"');
+        inscription();
+    });
+    
+    
     $('#bouton-connexion').on('click', function () {
-        // affichage pour debugage dans la console javascript du navigateur
         console.log('Click sur le bouton "Se Connecter"');
-        // appel de la fonction connexion
         connexion();
     });
 });
