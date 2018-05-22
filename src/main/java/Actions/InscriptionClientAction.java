@@ -3,41 +3,60 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Actions;
 
+import static Actions.Action.RESULTS_FIELD;
+import static Actions.ActionClient.SESSION_CLIENT_FIELD;
+import Exceptions.ConnectionFailException;
+import Exceptions.IncompatibleTypeException;
+import Exceptions.MissingInformationException;
+import Exceptions.SignUpException;
 import fr.insalyon.dasi.proactif.entities.Client;
 import fr.insalyon.dasi.proactif.services.ServicesClient;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author cflorant, aminemboulouma
+ * @author Amine Boulouma, Clément Florant
  */
-
-public class InscriptionClientAction {
-
-/*
 public class InscriptionClientAction extends ActionClient {
-    private Client client;
-    ServicesClient serviceClient;
-
-    public InscriptionClientAction(Client client, ServicesClient serviceClient) {
-        this.client = client;
-        this.serviceClient = serviceClient;
+ 
+    public InscriptionClientAction(ServicesClient servicesClient) {
+        super(servicesClient);
     }
     
-    public boolean execute(){
-        if (serviceClient.createClient(this.client) != null) {
-            return true;
-        }else{
-            return false;
-        }
+    public void execute(HttpServletRequest req, HttpServletResponse res)
+             throws ServletException, ConnectionFailException, 
+            IncompatibleTypeException, MissingInformationException, SignUpException {
+        
+        String nom = req.getParameter("nom");
+        String prenom = req.getParameter("prenom");
+        String civilite = req.getParameter("civilite");
+        String adresse = req.getParameter("adresse");
+        String tel = req.getParameter("tel");
+        String tempDate = req.getParameter("date");
+        Date date = new Date();
+        try{
+            date = new SimpleDateFormat("dd-MM-yyyy").parse(tempDate);
+        }catch(ParseException pe){}
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String cpassword = req.getParameter("cpassword");
+        
+        if (nom == null || prenom == null || email == null || adresse == null) 
+            throw new MissingInformationException();
+        
+        Client client = new Client(nom, prenom, civilite, date, adresse, 
+                 tel, email, password);
+        if (servicesClient.createClient(client) == null) 
+            throw new SignUpException();
+        
+        req.setAttribute(RESULTS_FIELD, client);
     }
->>>>>>> github/master
-    
-}
-*/
 }
