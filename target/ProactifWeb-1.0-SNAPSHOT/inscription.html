@@ -35,7 +35,6 @@
                 var champPassword = $('#champ-password').val();
                 var champCPassword = $('#champ-cpassword').val();
 
-
                 $('#message').html('Inscription en cours...');
 
                 $.ajax({
@@ -55,7 +54,8 @@
                     },
                     dataType: 'json'
                 }).done(function (data) {
-                    if (data.inscrit)
+                    console.log(data);
+                    if (data != null)
                         window.location = "connexionClient.html";
                     else{
                         $('#message').html('Saisie non valide, veuillez réessayer ...');

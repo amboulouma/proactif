@@ -32,7 +32,7 @@
                     dataType: 'json'
                 }).done(function (data) {
                     console.log(data);
-                    if (data.id != null)
+                    if (data != null)
                         window.location = "accueilClient.html";
                     else{
                         $('#message').html('Identifiants non valides, veuillez réessayer ...');

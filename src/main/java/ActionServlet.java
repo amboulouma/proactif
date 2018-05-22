@@ -46,12 +46,12 @@ import static sun.security.jgss.GSSUtil.login;
 public class ActionServlet extends HttpServlet {
 
     private ServicesClient servicesClient;
-    private ServicesEmployee servicesEmployee;
+    private ServicesEmployee servicesEmploye;
 
     
     public ActionServlet() {
         this.servicesClient = new ServicesClient();
-        this.servicesEmployee = new ServicesEmployee();
+        this.servicesEmploye = new ServicesEmployee();
     }
     
     
@@ -94,46 +94,27 @@ public class ActionServlet extends HttpServlet {
         switch(todo)
         {
             case "inscriptionClient":
-                /*
-                String nom = request.getParameter("nom");
-                String prenom = request.getParameter("prenom");
-                String civilite = request.getParameter("civilite");
-                String adresse = request.getParameter("adresse");
-                String tel = request.getParameter("tel");
-                String tempDate = request.getParameter("date");
-                Date date = new Date();
-                try{
-                    date = new SimpleDateFormat("dd-MM-yyyy").parse(tempDate);
-                }catch(ParseException pe){}
-                String email = request.getParameter("email");
-                String password = request.getParameter("password");
-                String cpassword = request.getParameter("cpassword");
-                Client client = new Client(nom, prenom, civilite, date, adresse, tel, email, password);
-                action = new InscriptionClientAction(client, servicesClient);
-                gson = new GsonBuilder().setPrettyPrinting().create();
-                json = new JsonObject();
-                boolean test = action.execute();
-                System.out.println(test);
-                json.addProperty("inscrit", test);
-                out.println(gson.toJson(json));
-                */
+                action = new InscriptionClientAction(servicesClient);
                 break;
-                
                 
             case "connexionClient":
                 action = new ConnexionClientAction(servicesClient);
                 break;
                 
             case "historiqueClient":
-                
+                //action = new HistoriqueClientAction(servicesClient);
                 break;
+                
             case "demandeInterventionClient":
-                
+                //action = new DemandeInterventionClientAction(servicesClient);
                 break;
+                
             case "nombreInterventionsClient":
-                
+                //action = new NombreInterventionClient(servicesClient);
                 break;
+                
             case "connexionEmployee":
+                //action = new ConnexionEmployeActions(servicesEmploye);
                 /*
                 login = request.getParameter("login");
                 password = request.getParameter("password");
@@ -148,17 +129,25 @@ public class ActionServlet extends HttpServlet {
                 break;
                 
             case "consulterInterventionEmploye":
-                
+                //action = new ConsulterInterventionEmployeAction(servicesEmploye);
                 break;
+                
             case "conclureInterventionEmploye":
-                
+                //action = new ConclureInterventionEmployeAction(servicesEmploye);
                 break;
+                
             case "tableauDeBordEmploye":
-                
+                //action = new TableauDeBordEmployeAction(servicesEmploye);
                 break;
-            case "deconnexion":
                 
+            case "deconnexionClient":
+                //action = new DeconnexionActionClient(servicesClient);
                 break;
+                
+            case "deconnexionEmploye":
+                //action = new DeconnexionActionEmploye(servicesEmploye);
+                break;
+                
             default :
                 // add not found action handler
                 break;
@@ -193,11 +182,13 @@ public class ActionServlet extends HttpServlet {
         switch(todo)
         {
             case "inscriptionClient":
+                Client clientInscrit = (Client) req.getAttribute(Action.RESULTS_FIELD);
+                res.getWriter().print(new Gson().toJson(clientInscrit));
                 
                 break;
             case "connexionClient":
-                Client user = (Client) req.getAttribute(Action.RESULTS_FIELD);
-                res.getWriter().print(new Gson().toJson(user));
+                Client client = (Client) req.getAttribute(Action.RESULTS_FIELD);
+                res.getWriter().print(new Gson().toJson(client));
                 break;
                 
             case "historiqueClient":
