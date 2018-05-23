@@ -92,36 +92,50 @@ public class ActionServlet extends HttpServlet {
             case "inscriptionClient":
                 action = new InscriptionClientAction(servicesClient);
                 break;
+
             case "connexionClient":
                 action = new ConnexionClientAction(servicesClient);
                 break;
             case "historiqueClient":
-                
+                //action = new HistoriqueClientAction(servicesClient);
                 break;
+                
             case "demandeInterventionClient":
                 action = new DemandeInterventionClientAction(servicesClient);
                 break;
+                
             case "nombreInterventionsClient":
                 action = new NombreInterventionsClientAction(servicesClient);
                 break;
+                
             case "deconnexionClient":
                 action = new DeconnexionClient(servicesClient);
                 break;
+                
             case "connexionEmployee":
                 action = new ConnexionEmployeeAction(servicesEmployee);
                 break;
+                
             case "consulterInterventionEmploye":
                 action = new ConsulterInterventionEmployeeAction(servicesEmployee);
                 break;
+                
             case "conclureInterventionEmploye":
                 action = new ConclureInterventionEmployee(servicesEmployee);
                 break;
+                
             case "tableauDeBordEmploye":
                 action = new ConsulterTableauDeBordEmployeeAction(servicesEmployee);
                 break;
+                
             case "deconnexionEmployee":
                 action = new DeconnexionEmployee(servicesEmployee);
                 break;
+                
+            case "deconnexionEmploye":
+                //action = new DeconnexionActionEmploye(servicesEmploye);
+                break;
+                
             default :
                 // add not found action handler
                 break;
@@ -163,8 +177,8 @@ public class ActionServlet extends HttpServlet {
         switch(todo)
         {
             case "inscriptionClient":
-                jsonHandler.sendClient(req, res);
                 break;
+                
             case "connexionClient":
                 jsonHandler.sendClient(req, res);
                 break;
@@ -172,30 +186,39 @@ public class ActionServlet extends HttpServlet {
             case "historiqueClient":
                 
                 break;
+                
             case "demandeInterventionClient":
                 jsonHandler.sendInterventionEnregistree(req, res);
                 break;
+                
             case "nombreInterventionsClient":
                 jsonHandler.sendNbInterventions(req, res);
                 break;
+                
             case "deconnexionClient":
                 jsonHandler.sendDeconnexionClient(req, res);
                 break;
+                
             case "connexionEmployee":
                 jsonHandler.sendEmployee(req, res);
                 break;
+                
             case "consulterInterventionEmploye":
                 jsonHandler.sendInfosIntervention(req, res);
                 break;
+                
             case "conclureInterventionEmploye":
                 jsonHandler.sendResolutionIntervention(req, res);
                 break;
+                
             case "tableauDeBordEmploye":
                 jsonHandler.sendInterventions(req, res);
                 break;
+                
             case "deconnexionEmployee":
                 jsonHandler.sendDeconnexionEmployee(req, res);
                 break;
+                
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
