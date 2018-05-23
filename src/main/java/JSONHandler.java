@@ -115,4 +115,10 @@ public class JSONHandler {
         res.getWriter().print(gson.toJson(interventions));
     }
 
+    
+    public void sendHistory(HttpServletRequest req, HttpServletResponse res) throws IOException{
+        List<Intervention> interventions = (List<Intervention>)req.getAttribute(Action.RESULTS_FIELD);
+        res.getWriter().print(gson.toJson(interventions));
+    }
+        
 }

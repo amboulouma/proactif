@@ -258,6 +258,51 @@ function demanderIntervention(){
 }
 
 
+function getHistory() {
+    
+    var radios = document.getElementsByName('filtre');
+    for (var i = 0, length = radios.length; i < length; i++) {
+         if (radios[i].checked) {
+            var filtre = radios[i].value;
+            break;
+        }
+    }
+    
+    $.ajax({
+        url: './ActionServlet',
+        method: 'POST',
+        data: {
+            todo: 'historiqueClient',
+            filtre: filtre,
+        },
+        dataType: 'json'
+    }).done(function (data) {
+        if (data.pet == undefined && data.object == undefined) {
+            $('#type').html("Type : Incident");
+        }
+        
+        else if (data.pet == undefined) {
+            $('#type').html("Type : Livraison");
+            $('#entreprise').html("Entreprise : " + JSON.stringify(data.entreprise)
+                    .slice(1,JSON.stringify(data.entreprise).length-1));
+            $('#objet').html("Objet : " + JSON.stringify(data.objet)
+                    .slice(1,JSON.stringify(data.objet).length-1));
+        }
+        
+        else {
+            $('#type').html("Type : Animal");
+            $('#animal').html("Animal : " + JSON.stringify(data.animal)
+                    .slice(1,JSON.stringify(data.animal).length-1));
+        }
+
+        $('#description').html(JSON.stringify(data.description)
+                .slice(1,JSON.stringify(data.description).length-1));
+        $('#horodate').html(JSON.stringify(data.creationDate)
+                .slice(1,JSON.stringify(data.creationDate).length-1));
+    });
+}
+
+
 $(document).ready(function () {
     
     var path = window.location.pathname;
@@ -269,17 +314,17 @@ $(document).ready(function () {
             $('#bouton-connexion-client').on('click', function () {
                 window.location = 'connexionClient.html';
             });
-        break;
+            break;
         
         case 'connexionClient.html':
             $('#bouton-inscription').on('click', function () {
                 window.location = 'inscription.html';
             });
-        break;
+            break;
         
         case 'accueilClient.html':
             getNbInterventions();
-        break;
+            break;
         
         case 'demandeIntervention.html':
             majAffichage();
@@ -295,15 +340,19 @@ $(document).ready(function () {
             $('#bouton-demander-Intervention').on('click', function () {
                 demanderIntervention();
             });
-        break;
+            break;
         
         case 'accueilEmploye.html':
             getInfosIntervention();
-        break;
+            break;
         
         case 'resolutionIntervention.html':
             consulterIntervention();
-        break;
+            break;
+        
+        case 'historiqueDemandes.html':
+            getHistory();
+            break;
     }
     
     $('#bouton-deconnexion-employee').on('click', function () {

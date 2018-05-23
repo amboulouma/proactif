@@ -97,7 +97,7 @@ public class ActionServlet extends HttpServlet {
                 action = new ConnexionClientAction(servicesClient);
                 break;
             case "historiqueClient":
-                //action = new HistoriqueClientAction(servicesClient);
+                action = new HistoriqueClientAction(servicesClient);
                 break;
                 
             case "demandeInterventionClient":
@@ -185,7 +185,7 @@ public class ActionServlet extends HttpServlet {
                 break;
                 
             case "historiqueClient":
-                
+                jsonHandler.sendHistory(req, res);
                 break;
                 
             case "demandeInterventionClient":

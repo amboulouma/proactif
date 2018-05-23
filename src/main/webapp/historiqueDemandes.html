@@ -25,29 +25,29 @@ and open the template in the editor.
         </div>
         <div>
             <input type="radio" id="toutes"
-             name="type" value="Toutes">
+                name="filtre" value="Toutes" checked>
             <label for="contactChoice1">Toutes</label>
 
             <input type="radio" id="livraisons"
-             name="type" value="Livraisons uniquement">
+                name="filtre" value="Livraisons uniquement">
             <label for="contactChoice2">Livraisons uniquement</label>
             
             <input type="radio" id="incidents"
-             name="type" value="Incidents uniquements">
+                name="filtre" value="Incidents uniquements">
             <label for="contactChoice3">Incidents uniquements</label>
             
             <input type="radio" id="animeaux"
-             name="type" value="Animeaux uniquement">
+                name="filtre" value="Animeaux uniquement">
             <label for="contactChoice4">Animeaux uniquement</label>
         </div>
         <div id='historique'>
             <div id='intervention'>
-                <h3 id="type">Type : </h3>
-                <p id="objet">Objet : </p>
-                <p id="entreprise">Entreprise : </p>
-                <p id="animal">Animal : </p>
-                <p id="description">Description : </p>
-                <p id="Horodate">Horodate : </p>
+                <h3 id="type"></h3>
+                <p id="objet"></p>
+                <p id="entreprise"></p>
+                <p id="animal"></p>
+                <p id="description"></p>
+                <p id="horodate"></p>
             </div>
         </div>
         <script src="static/js/ajax.js"></script>
