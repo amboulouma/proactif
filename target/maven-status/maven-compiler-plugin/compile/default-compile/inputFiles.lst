@@ -1,14 +1,12 @@
 C:\temp\B3442\temp\proactif\src\main\java\Actions\Action.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\ConclureInterventionEmployee.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\ConnexionClientAction.java
-C:\temp\B3442\temp\proactif\src\main\java\Actions\ConsulterInterventionEmployeAction.java
 C:\temp\B3442\temp\proactif\src\main\java\Exceptions\SignUpException.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\ActionClient.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\ConnexionEmployeeAction.java
 C:\temp\B3442\temp\proactif\src\main\java\Exceptions\InfoClientUpdateException.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\DeconnexionEmployee.java
 C:\temp\B3442\temp\proactif\src\main\java\Exceptions\NullAvailableProductException.java
-C:\temp\B3442\temp\proactif\src\main\java\Actions\ConclureInterventionEmployeAction.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\NombreInterventionsClientAction.java
 C:\temp\B3442\temp\proactif\src\main\java\Exceptions\ClientNullException.java
 C:\temp\B3442\temp\proactif\src\main\java\Exceptions\IncompatibleTypeException.java
@@ -19,11 +17,9 @@ C:\temp\B3442\temp\proactif\src\main\java\Exceptions\MissingInformationException
 C:\temp\B3442\temp\proactif\src\main\java\Exceptions\NotLoggedException.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\ConsulterTableauDeBordEmployeeAction.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\HistoriqueClientAction.java
-C:\temp\B3442\temp\proactif\src\main\java\Actions\DeconnexionClientAction.java
 C:\temp\B3442\temp\proactif\src\main\java\JSONHandler.java
 C:\temp\B3442\temp\proactif\src\main\java\Exceptions\DeconnexionException.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\InscriptionClientAction.java
-C:\temp\B3442\temp\proactif\src\main\java\Actions\TableauDeBordEmployeAction.java
 C:\temp\B3442\temp\proactif\src\main\java\ActionServlet.java
 C:\temp\B3442\temp\proactif\src\main\java\Actions\DeconnexionClient.java
 C:\temp\B3442\temp\proactif\src\main\java\Exceptions\ConnectionFailException.java

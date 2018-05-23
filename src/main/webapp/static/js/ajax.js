@@ -238,15 +238,26 @@ function majAffichage() {
 
 
 function historyAffichage() {
-    document.getElementById('choix-livraison').style.visibility='hidden';
-    document.getElementById('choix-animal').style.visibility='hidden';
-    if (document.getElementById('livraison').checked){
-        document.getElementById('choix-livraison').style.visibility='visible';
-        document.getElementById('choix-animal').style.visibility='hidden';
+
+    if ((document.getElementById('toutes').checked)){
+        document.getElementsByClassName('incident').style.visibility='visible';
+        document.getElementsByClassName('livraison').style.visibility='visible';
+        document.getElementsByClassName('animal').style.visibility='visible';
     }
-    else if (document.getElementById('animal').checked){
-        document.getElementById('choix-livraison').style.visibility='hidden';
-        document.getElementById('choix-animal').style.visibility='visible';
+    else if (document.getElementById('animaux').checked){
+        document.getElementsByClassName('incident').style.visibility='hidden';
+        document.getElementsByClassName('livraison').style.visibility='hidden';
+        document.getElementsByClassName('animal').style.visibility='visible';
+    }
+    else if (document.getElementById('livraisons').checked){
+        document.getElementsByClassName('incident').style.visibility='hidden';
+        document.getElementsByClassName('livraison').style.visibility='visible';
+        document.getElementsByClassName('animal').style.visibility='hidden';
+    }
+    else if (document.getElementById('incidents').checked){
+        document.getElementsByClassName('incident').style.visibility='visible';
+        document.getElementsByClassName('livraison').style.visibility='hidden';
+        document.getElementsByClassName('animal').style.visibility='hidden';
     }
 }
 
@@ -296,12 +307,14 @@ function getHistory() {
         }
         for(var i=0; i<data.length; i++) {    
             if (data[i].pet == undefined && data[i].object == undefined) {
+                $('#intervention' + i).attr('class', 'incident');
                 $('#intervention' + i + ' #type').html("Type : Incident");
                 $('#intervention' + i + ' #description').html(JSON.stringify(data[i].description).slice(1,JSON.stringify(data[i].description).length-1));
                 $('#intervention' + i + ' #horodate').html(JSON.stringify(data[i].creationDate).slice(1,JSON.stringify(data[i].creationDate).length-1));
             }
 
             else if (data[i].pet == undefined) {
+                $('#intervention' + i).attr('class', 'livraison');
                 $('#intervention' + i + ' #type').html("Type : Livraison");
                 $('#intervention' + i + ' #entreprise').html("Entreprise : " + JSON.stringify(data[i].company)
                         .slice(1,JSON.stringify(data[i].company).length-1));
@@ -312,6 +325,7 @@ function getHistory() {
             }
 
             else {
+                $('#intervention' + i).attr('class', 'animal');
                 $('#intervention' + i + ' #intervention' + i + ' #type').html("Type : Animal");
                 $('#intervention' + i + ' #animal').html("Animal : " + JSON.stringify(data[i].pet).slice(1,JSON.stringify(data[i].pet).length-1));
                 $('#intervention' + i + ' #description').html(JSON.stringify(data[i].description).slice(1,JSON.stringify(data[i].description).length-1));
@@ -372,6 +386,19 @@ $(document).ready(function () {
         
         case 'historiqueDemandes.html':
             getHistory();
+            historyAffichage();
+            $('#toutes').on('click', function () {
+                historyAffichage();
+            });
+            $('#animaux').on('click', function () {
+                historyAffichage();
+            });
+            $('#livraisons').on('click', function () {
+                historyAffichage();
+            });
+            $('#incidents').on('click', function () {
+                historyAffichage();
+            });
             break;
     }
     
