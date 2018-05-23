@@ -132,10 +132,6 @@ public class ActionServlet extends HttpServlet {
                 action = new DeconnexionEmployee(servicesEmployee);
                 break;
                 
-            case "deconnexionEmploye":
-                //action = new DeconnexionActionEmploye(servicesEmploye);
-                break;
-                
             default :
                 // add not found action handler
                 break;
