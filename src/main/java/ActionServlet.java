@@ -132,9 +132,6 @@ public class ActionServlet extends HttpServlet {
                 action = new DeconnexionEmployee(servicesEmployee);
                 break;
                 
-            default :
-                // add not found action handler
-                break;
         }
         
         boolean executed = false;
