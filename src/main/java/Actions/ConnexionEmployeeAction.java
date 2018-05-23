@@ -6,14 +6,10 @@
 package Actions;
 
 import Exceptions.IncompatibleTypeException;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import Exceptions.*;
 import fr.insalyon.dasi.proactif.entities.Employee;
 import fr.insalyon.dasi.proactif.services.ServicesEmployee;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +22,6 @@ import javax.servlet.http.HttpSession;
  */
 
 public class ConnexionEmployeeAction extends ActionEmployee{
-    
-    Gson gson;
-    JsonObject json;
-
 
     public ConnexionEmployeeAction(ServicesEmployee servicesEmployee) {
         super(servicesEmployee);
@@ -44,19 +36,12 @@ public class ConnexionEmployeeAction extends ActionEmployee{
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         HttpSession session = req.getSession(true);
-        session.setAttribute("login", login);
-        session.setAttribute("password", password);
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        json = new JsonObject();
-        PrintWriter out = res.getWriter();
         Employee e = servicesEmployee.connection(login, password);
-        if (e != null) {
-            session.setAttribute("employe", e);
-            json.addProperty("connected", true);
-        }else{
-            json.addProperty("connected", false);
+        if (e == null) {
+            throw new ConnectionFailException();
         }
-        out.println(gson.toJson(json));
+        session.setAttribute(ActionEmployee.SESSION_EMPLOYEE_FIELD, e);
+        req.setAttribute(RESULTS_FIELD, e);
     }
 }
 

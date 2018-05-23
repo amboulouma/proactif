@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.NoResultException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,11 +39,13 @@ public class ActionServlet extends HttpServlet {
 
     private ServicesClient servicesClient;
     private ServicesEmployee servicesEmployee;
+    private JSONHandler jsonHandler;
 
     
     public ActionServlet() {
         this.servicesClient = new ServicesClient();
         this.servicesEmployee = new ServicesEmployee();
+        this.jsonHandler = new JSONHandler();
     }
     
     
@@ -50,7 +53,7 @@ public class ActionServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
         JpaUtil.init();
-        // servicesEmployee.createEmployees(); // Ajouter cette ligne pour créer les employés dans la base de donnees
+        //servicesEmployee.createEmployees(); // Ajouter cette ligne pour créer les employés dans la base de donnees
     }
 
     
@@ -87,64 +90,37 @@ public class ActionServlet extends HttpServlet {
         switch(todo)
         {
             case "inscriptionClient":
-
-                /*String nom = request.getParameter("nom");
-
-                /*
-                String nom = request.getParameter("nom");
-
-                String prenom = request.getParameter("prenom");
-                String civilite = request.getParameter("civilite");
-                String adresse = request.getParameter("adresse");
-                String tel = request.getParameter("tel");
-                String tempDate = request.getParameter("date");
-                Date date = new Date();
-                try{
-                    date = new SimpleDateFormat("dd-MM-yyyy").parse(tempDate);
-                }catch(ParseException pe){}
-                String email = request.getParameter("email");
-                String password = request.getParameter("password");
-                String cpassword = request.getParameter("cpassword");
-                Client client = new Client(nom, prenom, civilite, date, adresse, tel, email, password);
-                action = new InscriptionClientAction(client, servicesClient);
-                gson = new GsonBuilder().setPrettyPrinting().create();
-                json = new JsonObject();
-                boolean test = action.execute();
-                System.out.println(test);
-                json.addProperty("inscrit", test);
-                out.println(gson.toJson(json));*/
-
+                action = new InscriptionClientAction(servicesClient);
                 break;
-                
-                
             case "connexionClient":
-                //action = new ConnexionClientAction(servicesClient);
+                action = new ConnexionClientAction(servicesClient);
                 break;
-                
             case "historiqueClient":
                 
                 break;
             case "demandeInterventionClient":
-                
+                action = new DemandeInterventionClientAction(servicesClient);
                 break;
             case "nombreInterventionsClient":
-                
+                action = new NombreInterventionsClientAction(servicesClient);
+                break;
+            case "deconnexionClient":
+                action = new DeconnexionClient(servicesClient);
                 break;
             case "connexionEmployee":
                 action = new ConnexionEmployeeAction(servicesEmployee);
                 break;
-                
             case "consulterInterventionEmploye":
                 action = new ConsulterInterventionEmployeeAction(servicesEmployee);
                 break;
             case "conclureInterventionEmploye":
-                
+                action = new ConclureInterventionEmployee(servicesEmployee);
                 break;
             case "tableauDeBordEmploye":
-                
+                action = new ConsulterTableauDeBordEmployeeAction(servicesEmployee);
                 break;
-            case "deconnexion":
-                
+            case "deconnexionEmployee":
+                action = new DeconnexionEmployee(servicesEmployee);
                 break;
             default :
                 // add not found action handler
@@ -176,42 +152,49 @@ public class ActionServlet extends HttpServlet {
             Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex){
             Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoResultException ex){
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex){
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DeconnexionException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         
         switch(todo)
         {
             case "inscriptionClient":
-                
+                jsonHandler.sendClient(req, res);
                 break;
             case "connexionClient":
-                Client user = (Client) req.getAttribute(Action.RESULTS_FIELD);
-                res.getWriter().print(new Gson().toJson(user));
+                jsonHandler.sendClient(req, res);
                 break;
                 
             case "historiqueClient":
                 
                 break;
             case "demandeInterventionClient":
-                
+                jsonHandler.sendInterventionEnregistree(req, res);
                 break;
             case "nombreInterventionsClient":
-                
+                jsonHandler.sendNbInterventions(req, res);
+                break;
+            case "deconnexionClient":
+                jsonHandler.sendDeconnexionClient(req, res);
                 break;
             case "connexionEmployee":
-                
+                jsonHandler.sendEmployee(req, res);
                 break;
             case "consulterInterventionEmploye":
-                
+                jsonHandler.sendInfosIntervention(req, res);
                 break;
             case "conclureInterventionEmploye":
-                
+                jsonHandler.sendResolutionIntervention(req, res);
                 break;
             case "tableauDeBordEmploye":
-                
+                jsonHandler.sendInterventions(req, res);
                 break;
-            case "deconnexion":
-                
+            case "deconnexionEmployee":
+                jsonHandler.sendDeconnexionEmployee(req, res);
                 break;
         }
     }

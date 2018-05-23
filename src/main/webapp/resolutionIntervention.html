@@ -6,11 +6,58 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Resolution Intervention</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <a href="accueilEmploye.html">Accueil</a>
+        <a href="tableauBord.html">Tableau de bord</a>
+        <button id="bouton-deconnexion-employee">Se deconnecter</button>
+        <br/><br/><br/>
+        <table>
+         <tr>
+          <td>Recapitulatif de l'intervention : </td>
+         </tr>
+         <tr>
+          <td>Type : </td>
+          <td><div id="interventionType"></div></td>
+         </tr>
+        <tr>
+          <td>Client : </td>
+          <td><div id="interventionClient"></div></td>
+         </tr>
+        <tr>
+          <td>Description : </td>
+          <td><div id="interventionDescription"></div></td>
+         </tr>
+        <tr>
+          <td>Horodate : </td>
+          <td><div id="interventionHorodate"></div></td>
+         </tr>
+        </table>
+        <br/><br/><br/>
+        Date de fin :
+        <input type="date" name="dateFin" id = "dateFinInterventionChamp" required="required">
+        <br/><br/><br/>
+        Heure de fin :
+        <input type="time" name="heureFin" id = "heureFinInterventionChamp" required="required">
+        <br/><br/><br/>
+        Issue : 
+        <div>
+            <input type="radio" id="issue1"
+             name="issue" value="Terminee">
+            <label for="contactChoice1">Terminee</label>
+
+            <input type="radio" id="issue2"
+             name="issue" value="Probleme">
+            <label for="contactChoice2">Probleme</label>
+        </div>
+        <br/><br/><br/>
+        Commentaires :
+        <input type="text" id="commentaireInterventionChamp">
+        <button id="bouton-cloreIntervention">Clore l'intervention</button>   
+        <script src="static/js/ajax.js"></script>
     </body>
 </html>

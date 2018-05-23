@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  */
 public abstract class ActionEmployee extends Action{
     
-    protected final String SESSION_EMPLOYEE_FIELD = "employe";
+    public static final String SESSION_EMPLOYEE_FIELD = "employe";
     
     ServicesEmployee servicesEmployee;
     
@@ -27,13 +27,6 @@ public abstract class ActionEmployee extends Action{
     {
         this.servicesEmployee = servicesEmployee;
     }
-    
-    /**
-     *
-     * @param request
-     * @param response
-     * @throws IOException
-     */
     
     public boolean isEmployee(HttpServletRequest request, HttpServletResponse response)
     {

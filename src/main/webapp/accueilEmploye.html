@@ -7,31 +7,36 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
-        <h1>Accueil Employee</h1>
-        <div id="nomEmploye"></div>
-            <script>
-
-            function connexion() {
-
-                $.ajax({
-                    url: './ActionServlet',
-                    method: 'POST',
-                    data: {
-                        todo: 'consulterInterventionEmploye',
-                    },
-                    dataType: 'json'
-                }).done(function (data) {
-                    $('#nomEmploye').html(data.firstNameEmployee);
-                });
-            }
-
-            $(document).ready(function () {
-
-                    connexion();
-                
-            });
-            
-        </script>
+        <a href="accueilEmploye.html">Accueil</a>
+        <a href="tableauBord.html">Tableau de bord</a>
+        <button id="bouton-deconnexion-employee">Se deconnecter</button>
+        <br/><br/><br/>
+        <div id="message"></div>
+        <br/>
+        <table onclick="location.href='resolutionIntervention.html'">
+         <tr>
+          <td>Type : </td>
+          <td><div id="interventionType"></div></td>
+         </tr>
+        <tr>
+          <td>Client : </td>
+          <td><div id="interventionClient"></div></td>
+         </tr>
+        <tr>
+          <td>Description : </td>
+          <td><div id="interventionDescription"></div></td>
+         </tr>
+        <tr>
+          <td>Horodate : </td>
+          <td><div id="interventionHorodate"></div></td>
+         </tr>
+        </table>
+        
+        <br/><br/>
+        
+        Cliquez sur le panneau pour clore l'intervention correspondante
+        
+        <script src="static/js/ajax.js"></script>
     </body>
     
 </html>

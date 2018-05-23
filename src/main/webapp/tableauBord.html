@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Demonstrat'IF - Carte Google Maps</title>
+        <title>Proact'IF - Carte Google Maps</title>
 
         <style type="text/css">
             html, body { height: 100%; margin: 0; padding: 0; }
@@ -17,128 +17,11 @@
     <body>
         <a href="accueilEmploye.html">Accueil</a>
         <a href="tableauBord.html">Tableau de bord</a>
-        <button id="bouton-deconnexion">Se deconnecter</button>
+        <button id="bouton-deconnexion-employee">Se deconnecter</button>
         <br/><br/><br/>
         <div id="map"></div>
 
-        <script type="text/javascript">
-
-            var googleMapInstance = null;
-
-            function makeInfoWindow(title) {
-                return new google.maps.InfoWindow({
-                    content: '<div>Information: ' + title + '</div>'
-                });
-            }
-
-            function attachInfoWindow(marker, infowindow, htmlDescription) {
-                marker.addListener('click', function () {
-
-                    infowindow.setContent(htmlDescription);
-                    infowindow.open(googleMapInstance, this);
-                });
-            }
-
-            function initMap() {
-
-                googleMapInstance = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: 45.7601424, lng: 4.8961779},
-                    zoom: 13
-                });
-                
-                $.ajax({
-                    url: './ActionServlet',
-                    method: 'POST',
-                    data: {
-                        todo: 'tableauDeBordEmploye',
-                    },
-                    dataType: 'json'
-                }).done(function (data) {
-                    generateMarkers(data, googleMapInstance)
-                });
-            }
-
-            function generateMarkers(data, googleMapInstance) {
-                
-                var infowindow = makeInfoWindow('');
-                
-                var geocoder = new google.maps.Geocoder();
-                
-                var iter = 0;
-                
-                for (iter = 0; iter < data.length; iter++) {
-                    
-                    geocoder.geocode({'address': data[iter].client.address}, function(results, status) {
-                        if (status === 'OK') {
-                            iter ++;
-                            var marker = new google.maps.Marker({
-                            map: googleMapInstance,
-                            position: results[0].geometry.location,
-                            title: 'Intervention #'+(iter-2)
-                            
-                          });
-                          var type;
-                          var solved = false;
-                          var state;
-                          var fin = '';
-                          if (data[iter-3].pet == undefined && data[iter-3].object == undefined)
-                            {
-                                type = 'Incident';
-                            }
-                            else if (data[iter-3].pet == undefined)
-                            {
-                                type = 'Delivery';
-                            }
-                            else
-                            {
-                                type = 'Pet';
-                            }
-                            if (data[iter-3].resolutionDate == undefined)
-                            {
-                                solved = false;
-                            }
-                            if (solved == true)
-                            {
-                                state = 'Resolue';
-                                fin = 'Date et heure de fin : ' + data[iter-3].resolutionDate + '<br/>';
-                            }
-                            else
-                            {
-                                state = 'En cours ...';
-                            }
-                            attachInfoWindow(
-                            marker, infowindow,
-                            '<div><strong><a href="./endroit.html?' + (iter-2) + '">Intervention #' + (iter-2) +
-                            '</a></strong><br/>Lieu de l\'intervention numéro ' + (iter-2) + '<br/>' +
-                            'Type : ' + type + '<br/>' +'Description : ' + data[iter-3].description + '<br/>' +
-                            'Client : ' + data[iter-3].client.firstName + ' ' + data[iter-3].client.name + '<br/>' +
-                            'Adresse : ' + data[iter-3].client.address + '<br/>' +
-                            'Date et heure de la demande : ' + data[iter-3].creationDate + '<br/>' +
-                            fin +
-                            'Etat : '+ state + '</div>'
-                            );
-                        } else {
-                          alert('Geocode was not successful for the following reason: ' + status);
-                        }
-                    });
-                    
-                  
-                }
-
-            }
-            
-            function GenerateCoordinates(address){
-                geocoder.geocode({'address': address}, function(results, status) {
-                    if (status === 'OK') {
-                        return results[0].geometry.location;
-                    } else {
-                      alert('Geocode was not successful for the following reason: ' + status);
-                    }
-                  });
-                  
-            }
-
-        </script>
+        <script src="static/js/geo.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAklw96N9rLd93ubr-F04CN7qi2ryKayAc&callback=initMap">
         </script>
     </body>

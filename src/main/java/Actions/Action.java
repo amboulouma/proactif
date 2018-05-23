@@ -31,5 +31,5 @@ public abstract class Action {
             throws ServletException, NotLoggedException, SignUpException, 
             NullAvailableProductException, ClientNullException, ConnectionFailException, 
             IncompatibleTypeException, MissingInformationException, InfoClientUpdateException, 
-            ParseException, IOException;
+            ParseException, IOException, DeconnexionException;
 }

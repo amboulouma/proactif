@@ -6,15 +6,15 @@
 package Actions;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import fr.insalyon.dasi.proactif.entities.Employee;
 import fr.insalyon.dasi.proactif.entities.Intervention;
 import fr.insalyon.dasi.proactif.services.ServicesEmployee;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,24 +22,18 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ConsulterInterventionEmployeeAction extends ActionEmployee{
     
-    Gson gson;
-    JsonObject json;
-    
     public ConsulterInterventionEmployeeAction(ServicesEmployee servicesEmployee){
         super(servicesEmployee);
     }
     
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        json = new JsonObject();
-        PrintWriter out = response.getWriter();
-        Employee e = (Employee) request.getSession().getAttribute(SESSION_EMPLOYEE_FIELD);
+    @Override
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws IOException, NoResultException{
+        HttpSession session = req.getSession(true);
+        Employee e = (Employee) session.getAttribute(ActionEmployee.SESSION_EMPLOYEE_FIELD);
         Intervention i = this.servicesEmployee.getPendingIntervention(e);
-        json.addProperty("firstNameEmployee", e.getFirstName());
-        json.addProperty("nameClient", i.getClient().getName());
-        json.addProperty("firstNameClient", i.getClient().getFirstName());
-        json.addProperty("description", i.getDescription());
-        json.addProperty("date", i.getCreationDate().toString());
-        out.println(gson.toJson(json));
+        if (i != null)
+        {
+            req.setAttribute(RESULTS_FIELD, i);
+        }
     }
 }

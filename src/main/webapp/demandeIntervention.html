@@ -9,8 +9,39 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>
+            <input type="radio" id="livraison"
+             name="type" value="Livraison">
+            <label for="contactChoice1">Livraison</label>
+
+            <input type="radio" id="incident"
+             name="type" value="Incident">
+            <label for="contactChoice2">Incident</label>
+            
+            <input type="radio" id="animal"
+             name="type" value="Animal">
+            <label for="contactChoice3">Animal</label>
+        </div>
+        <div id='choix-livraison'>
+            Objet
+            <br/>
+            <input type="text" id="objetChamp" name="objet" placeholder="Nom de l'objet" /><br>
+            Entreprise
+            <br/>
+            <input type="text" id="entrepriseChamp" name="entreprise" placeholder="Nom de l'entreprise" /><br>
+        </div>
+        <div id='choix-animal'>
+            Animal
+            <br/>
+            <input type="text" id="animalChamp" name="animal" placeholder="Nom de l'animal" /><br>
+        </div>
+        Description
+        <br/>
+        <input type="text" id="descriptionChamp" name="description" placeholder="Description ..." /><br>
+        <button id="bouton-demander-Intervention">Valider ma demande</button>   
+        <script src="static/js/ajax.js"></script>
     </body>
 </html>

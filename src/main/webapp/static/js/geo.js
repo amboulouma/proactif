@@ -6,6 +6,7 @@ function makeInfoWindow(title) {
     });
 }
 
+
 function attachInfoWindow(marker, infowindow, htmlDescription) {
     marker.addListener('click', function () {
 
@@ -13,6 +14,7 @@ function attachInfoWindow(marker, infowindow, htmlDescription) {
         infowindow.open(googleMapInstance, this);
     });
 }
+
 
 function initMap() {
 
@@ -32,6 +34,7 @@ function initMap() {
         generateMarkers(data, googleMapInstance)
     });
 }
+
 
 function generateMarkers(data, googleMapInstance) {
 
@@ -104,6 +107,7 @@ function generateMarkers(data, googleMapInstance) {
     }
 }
 
+
 function GenerateCoordinates(address){
     geocoder.geocode({'address': address}, function(results, status) {
         if (status === 'OK') {
@@ -114,6 +118,7 @@ function GenerateCoordinates(address){
       });
 
 }
+
 
 function deconnexionEmployee() {
     $.ajax({
@@ -127,6 +132,7 @@ function deconnexionEmployee() {
         window.location = "connexionEmploye.html";
     });
 }
+
 
 $(document).ready(function () {
     $('#bouton-deconnexion-employee').on('click', function () {

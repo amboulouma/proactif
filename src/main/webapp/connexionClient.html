@@ -1,57 +1,35 @@
-
 <!DOCTYPE html>
 <html>
     <head>
         <title>Connexion Client</title>
         <meta charset="UTF-8">
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
     </head>
     <body>
         <h1>Login Client</h1>
-        Identifiant : <input type="text" id="champ-login" name="login" placeholder="votre identifiant" /><br>
-        Mot de passe : <input type="password" id="champ-password" name="password" /><br>
-        <button id="bouton-connexion">Se connecter</button>   
-        <div id="message"></div>
         
-        <script>
-
-            function connexion() {
-                var champLogin = $('#champ-login').val();
-                var champPassword = $('#champ-password').val();
-
-                $('#message').html('Connexion en cours...');
-
-                $.ajax({
-                    url: './ActionServlet',
-                    method: 'POST',
-                    data: {
-                        todo: 'connexionClient',
-                        login: champLogin,
-                        password: champPassword
-                    },
-                    dataType: 'json'
-                }).done(function (data) {
-                    console.log(data);
-                    if (data.id != null)
-                        window.location = "accueilClient.html";
-                    else{
-                        $('#message').html('Identifiants non valides, veuillez réessayer ...');
-                    }
-                    // si connexion pas ok afficher un texte dans la div message :
-                    //$('#message').html('Echec de la connexion');
-                });
-            }
-
-            $(document).ready(function () {
-                // ajout d'un "handler" sur le clic du bouton de connexion
-                $('#bouton-connexion').on('click', function () {
-                    // affichage pour debugage dans la console javascript du navigateur
-                    console.log('Click sur le bouton "Se Connecter"');
-                    // appel de la fonction connexion
-                    connexion();
-                });
-            });
-            
-        </script>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Identifiant</label>
+          <input type="email" class="form-control" id="champ-login" aria-describedby="emailHelp" placeholder="votre identifiant">
+          <small id="emailHelp" class="form-text text-muted">Vous ne devez partager votre email avec personne.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Mot de passe</label>
+          <input type="password" class="form-control" id="champ-password" placeholder="votre mot de passe">
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Mémoriser</label>
+        </div>
+        <button class="btn btn-primary" id="bouton-connexion-client">Se connecter</button>
+        <div id="message"></div>
+        <br/>
+        Pas encore membre ? Inscrivez-vous !
+        <br/>
+        <button class="btn btn-primary" id="bouton-inscription">S'inscrire</button>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="static/js/ajax.js"></script>
+        
     </body>
 </html>
