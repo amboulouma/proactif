@@ -49,13 +49,16 @@ public class InscriptionClientAction extends ActionClient {
         String password = req.getParameter("password");
         String cpassword = req.getParameter("cpassword");
         
+        Client client = null;
+        
         if (nom == null || prenom == null || email == null || adresse == null) 
             throw new MissingInformationException();
-        
-        Client client = new Client(nom, prenom, civilite, date, adresse, 
-                 tel, email, password);
-        if (servicesClient.createClient(client) == null) 
-            throw new SignUpException();
+        else {
+            client = new Client(nom, prenom, civilite, date, adresse, 
+                     tel, email, password);
+            if (servicesClient.createClient(client) == null) 
+                throw new SignUpException();
+        }
         
         req.setAttribute(RESULTS_FIELD, client);
     }

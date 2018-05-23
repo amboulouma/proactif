@@ -6,11 +6,50 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Historique des interventions</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>
+            <a href="index.html">Proactif</a>
+            <a href="demandeIntervention.html">Demander une intervention</a>
+            <a href="historiqueDemandes.html">Mes demandes</a>
+            <button id="bouton-deconnexion-client">Se deconnecter</button>
+        </div>
+        <div>
+            <p>
+                Remplissez le formulaire ci-dessous pour soumettre une demande d'intervention
+            </p>
+        </div>
+        <div>
+            <input type="radio" id="toutes"
+             name="type" value="Toutes">
+            <label for="contactChoice1">Toutes</label>
+
+            <input type="radio" id="livraisons"
+             name="type" value="Livraisons uniquement">
+            <label for="contactChoice2">Livraisons uniquement</label>
+            
+            <input type="radio" id="incidents"
+             name="type" value="Incidents uniquements">
+            <label for="contactChoice3">Incidents uniquements</label>
+            
+            <input type="radio" id="animeaux"
+             name="type" value="Animeaux uniquement">
+            <label for="contactChoice4">Animeaux uniquement</label>
+        </div>
+        <div id='historique'>
+            <div id='intervention'>
+                <h3 id="type">Type : </h3>
+                <p id="objet">Objet : </p>
+                <p id="entreprise">Entreprise : </p>
+                <p id="animal">Animal : </p>
+                <p id="description">Description : </p>
+                <p id="Horodate">Horodate : </p>
+            </div>
+        </div>
+        <script src="static/js/ajax.js"></script>
     </body>
 </html>

@@ -78,9 +78,10 @@ function inscription() {
         },
         dataType: 'json'
     }).done(function (data) {
-        console.log(data);
-        if (data != null)
+        console.log('here');
+        if (data != null){
             window.location = "connexionClient.html";
+        }
         else{
             $('#message').html('Saisie non valide, veuillez réessayer ...');
         }
@@ -100,9 +101,7 @@ function getInfosIntervention() {
     }).done(function (data) {
         //document.getElementById("nomEmployee").innerHTML = "data.firstNameEmployee";
         $('#message').html("Bonjour " + JSON.stringify(data.employee.firstName).slice(1,JSON.stringify(data.employee.firstName).length-1) +
-                              " vous avez une intervention en attente :");
-
-
+            " vous avez une intervention en attente :");
 
         if (data.pet == undefined && data.object == undefined)
         {
@@ -205,7 +204,7 @@ function getNbInterventions(){
     }).done(function (data) {
         $('#clientFirstName').html(data.clientFirstName);
         $('#nbInterventions').html(data.nbIntervention);
-        $('#message').html('Bienvenue, ' + data.clientFirstName + ' vous avez actuellement ' + data.nbIntervention + ' interventions en cours.');
+        $('#message').html('Bienvenue ' + data.clientFirstName + ', vous avez actuellement ' + data.nbIntervention + ' interventions en cours.');
     });
 }
 
@@ -271,14 +270,17 @@ $(document).ready(function () {
                 window.location = 'connexionClient.html';
             });
         break;
+        
         case 'connexionClient.html':
             $('#bouton-inscription').on('click', function () {
                 window.location = 'inscription.html';
             });
         break;
+        
         case 'accueilClient.html':
             getNbInterventions();
         break;
+        
         case 'demandeIntervention.html':
             majAffichage();
             $('#livraison').on('click', function () {
@@ -294,9 +296,11 @@ $(document).ready(function () {
                 demanderIntervention();
             });
         break;
+        
         case 'accueilEmploye.html':
             getInfosIntervention();
         break;
+        
         case 'resolutionIntervention.html':
             consulterIntervention();
         break;
@@ -311,22 +315,19 @@ $(document).ready(function () {
     });
     
     $('#bouton-inscription').on('click', function () {
-        console.log('Click sur le bouton "S\'enregistrer"');
         inscription();
     });
     
     $('#bouton-connexion-client').on('click', function () {
-        console.log('Click sur le bouton "Se Connecter"');
         connexionClient();
     });
     
     $('#bouton-connexion-employe').on('click', function () {
-        console.log('Click sur le bouton "Se Connecter"');
         connexionEmploye();
     });
     
     $('#bouton-cloreIntervention').on('click', function () {
-            cloreIntervention();
+        cloreIntervention();
     });
     
     

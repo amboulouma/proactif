@@ -177,6 +177,7 @@ public class ActionServlet extends HttpServlet {
         switch(todo)
         {
             case "inscriptionClient":
+                jsonHandler.sendClient(req, res);
                 break;
                 
             case "connexionClient":

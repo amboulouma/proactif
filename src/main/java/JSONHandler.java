@@ -112,8 +112,6 @@ public class JSONHandler {
     
     public void sendInterventions(HttpServletRequest req, HttpServletResponse res) throws IOException{
         List<Intervention> interventions = (List<Intervention>)req.getAttribute(Action.RESULTS_FIELD);
-        System.out.println("lol");
-        System.out.println(interventions);
         res.getWriter().print(gson.toJson(interventions));
     }
 
