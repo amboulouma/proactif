@@ -55,7 +55,6 @@ function generateMarkers(data, googleMapInstance) {
                 title: 'Intervention #'+(iter-data.length)
 
               });
-              alert(data[iter-(data.length+1)]);
               var type;
               var solved = false;
               var state;

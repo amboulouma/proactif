@@ -237,6 +237,19 @@ function majAffichage() {
 }
 
 
+function historyAffichage() {
+    document.getElementById('choix-livraison').style.visibility='hidden';
+    document.getElementById('choix-animal').style.visibility='hidden';
+    if (document.getElementById('livraison').checked){
+        document.getElementById('choix-livraison').style.visibility='visible';
+        document.getElementById('choix-animal').style.visibility='hidden';
+    }
+    else if (document.getElementById('animal').checked){
+        document.getElementById('choix-livraison').style.visibility='hidden';
+        document.getElementById('choix-animal').style.visibility='visible';
+    }
+}
+
 function demanderIntervention(){
     $.ajax({
         url: './ActionServlet',
@@ -304,8 +317,7 @@ function getHistory() {
                 $('#intervention' + i + ' #description').html(JSON.stringify(data[i].description).slice(1,JSON.stringify(data[i].description).length-1));
                 $('#intervention' + i + ' #horodate').html(JSON.stringify(data[i].creationDate).slice(1,JSON.stringify(data[i].creationDate).length-1));
             }
-
-            
+           
         }
     });
 }
