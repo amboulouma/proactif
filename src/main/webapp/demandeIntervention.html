@@ -10,20 +10,41 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
     </head>
     <body>
-        <div>
-            <a href="index.html">Proactif</a>
-            <a href="demandeIntervention.html">Demander une intervention</a>
-            <a href="historiqueDemandes.html">Mes demandes</a>
-            <button id="bouton-deconnexion-client">Se deconnecter</button>
-        </div>
+        
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="index.html">PROACT'IF</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="demandeIntervention.html">Demander une intervention</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="historiqueDemandes.html">Mes demandes</a>
+                </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                      <button class="btn btn-primary navbar-btn" id="bouton-deconnexion-client">Se déconnecter</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
         <div>
             <p>
                 Remplissez le formulaire ci-dessous pour soumettre une demande d'intervention
             </p>
         </div>
-        <div>
+        <div class="form-group">
             <input type="radio" id="livraison"
              name="type" value="Livraison">
             <label for="contactChoice1">Livraison</label>
@@ -36,23 +57,25 @@ and open the template in the editor.
              name="type" value="Animal">
             <label for="contactChoice3">Animal</label>
         </div>
+        <div class="form-group">
         <div id='choix-livraison'>
             Objet
             <br/>
-            <input type="text" id="objetChamp" name="objet" placeholder="Nom de l'objet" /><br>
+            <input type="text" id="objetChamp" name="objet" class="form-control" placeholder="Nom de l'objet" /><br>
             Entreprise
             <br/>
-            <input type="text" id="entrepriseChamp" name="entreprise" placeholder="Nom de l'entreprise" /><br>
+            <input type="text" id="entrepriseChamp" class="form-control" name="entreprise" placeholder="Nom de l'entreprise" /><br>
         </div>
         <div id='choix-animal'>
             Animal
             <br/>
-            <input type="text" id="animalChamp" name="animal" placeholder="Nom de l'animal" /><br>
+            <input type="text" id="animalChamp" class="form-control" name="animal" placeholder="Nom de l'animal" /><br>
         </div>
         Description
+        </div>
         <br/>
-        <input type="text" id="descriptionChamp" name="description" placeholder="Description ..." /><br>
-        <button id="bouton-demander-Intervention">Valider ma demande</button>   
+        <input type="text" id="descriptionChamp" name="description" placeholder="Description ..." class="form-control" /><br>
+        <button id="bouton-demander-Intervention" class="btn btn-primary navbar-btn">Valider ma demande</button>   
         <script src="static/js/ajax.js"></script>
     </body>
 </html>

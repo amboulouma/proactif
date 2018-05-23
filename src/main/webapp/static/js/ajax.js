@@ -224,15 +224,15 @@ function deconnexionClient() {
 
 
 function majAffichage() {
-    document.getElementById('choix-livraison').style.visibility='hidden';
-    document.getElementById('choix-animal').style.visibility='hidden';
+    document.getElementById('choix-livraison').style.display = 'none';
+    document.getElementById('choix-animal').style.display = 'none';
     if (document.getElementById('livraison').checked){
-        document.getElementById('choix-livraison').style.visibility='visible';
-        document.getElementById('choix-animal').style.visibility='hidden';
+        document.getElementById('choix-livraison').style.display='block';
+        document.getElementById('choix-animal').style.display = 'none';
     }
     else if (document.getElementById('animal').checked){
-        document.getElementById('choix-livraison').style.visibility='hidden';
-        document.getElementById('choix-animal').style.visibility='visible';
+        document.getElementById('choix-livraison').style.display = 'compact';
+        document.getElementById('choix-animal').style.display='block';
     }
 }
 
@@ -250,13 +250,13 @@ function historyAffichage() {
         document.getElementsByClassName('animal').style.visibility='visible';
     }
     else if (document.getElementById('livraisons').checked){
-        document.getElementsByClassName('incident').style.visibility='hidden';
+        document.getElementsByClassName('incident')[0].style.visibility='hidden';
         document.getElementsByClassName('livraison').style.visibility='visible';
         document.getElementsByClassName('animal').style.visibility='hidden';
     }
     else if (document.getElementById('incidents').checked){
         document.getElementsByClassName('incident').style.visibility='visible';
-        document.getElementsByClassName('livraison').style.visibility='hidden';
+        document.getElementsByClassName('livraison')[1].style.display = 'none';
         document.getElementsByClassName('animal').style.visibility='hidden';
     }
 }
@@ -307,14 +307,14 @@ function getHistory() {
         }
         for(var i=0; i<data.length; i++) {    
             if (data[i].pet == undefined && data[i].object == undefined) {
-                $('#intervention' + i).attr('class', 'incident');
+                $('#intervention' + i).attr('class', 'incident card');
                 $('#intervention' + i + ' #type').html("Type : Incident");
                 $('#intervention' + i + ' #description').html(JSON.stringify(data[i].description).slice(1,JSON.stringify(data[i].description).length-1));
                 $('#intervention' + i + ' #horodate').html(JSON.stringify(data[i].creationDate).slice(1,JSON.stringify(data[i].creationDate).length-1));
             }
 
             else if (data[i].pet == undefined) {
-                $('#intervention' + i).attr('class', 'livraison');
+                $('#intervention' + i).attr('class', 'livraison card');
                 $('#intervention' + i + ' #type').html("Type : Livraison");
                 $('#intervention' + i + ' #entreprise').html("Entreprise : " + JSON.stringify(data[i].company)
                         .slice(1,JSON.stringify(data[i].company).length-1));
@@ -325,7 +325,7 @@ function getHistory() {
             }
 
             else {
-                $('#intervention' + i).attr('class', 'animal');
+                $('#intervention' + i).attr('class', 'animal card');
                 $('#intervention' + i + ' #intervention' + i + ' #type').html("Type : Animal");
                 $('#intervention' + i + ' #animal').html("Animal : " + JSON.stringify(data[i].pet).slice(1,JSON.stringify(data[i].pet).length-1));
                 $('#intervention' + i + ' #description').html(JSON.stringify(data[i].description).slice(1,JSON.stringify(data[i].description).length-1));
