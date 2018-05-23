@@ -32,7 +32,7 @@ public class HistoriqueClientAction extends ActionClient{
             IncompatibleTypeException, MissingInformationException {
         HttpSession session = req.getSession(true);
         Client client = (Client) session.getAttribute(ActionClient.SESSION_CLIENT_FIELD);
-        Filter filter = null;
+        Filter filter = Filter.getFilter(0);
         String filtre = req.getParameter("filtre");
         switch(filtre) {
             case "toutes":

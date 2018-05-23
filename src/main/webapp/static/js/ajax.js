@@ -253,7 +253,7 @@ function demanderIntervention(){
         },
         dataType: 'json'
     }).done(function (data) {
-        window.location = 'accueilClient.html';
+        window.location = 'accueilClient.html'; 
     });
 }
 
@@ -277,28 +277,36 @@ function getHistory() {
         },
         dataType: 'json'
     }).done(function (data) {
-        if (data.pet == undefined && data.object == undefined) {
-            $('#type').html("Type : Incident");
+        console.log(data);
+        for(var i=0; i<data.length; i++) {
+            $("#historique").append("<div id='intervention" + i + "'><h3 id='type'></h3><p id='objet'></p><p id='entreprise'></p><p id='animal'></p><p id='description'></p><p id='horodate'></p></div>");
         }
-        
-        else if (data.pet == undefined) {
-            $('#type').html("Type : Livraison");
-            $('#entreprise').html("Entreprise : " + JSON.stringify(data.entreprise)
-                    .slice(1,JSON.stringify(data.entreprise).length-1));
-            $('#objet').html("Objet : " + JSON.stringify(data.objet)
-                    .slice(1,JSON.stringify(data.objet).length-1));
-        }
-        
-        else {
-            $('#type').html("Type : Animal");
-            $('#animal').html("Animal : " + JSON.stringify(data.animal)
-                    .slice(1,JSON.stringify(data.animal).length-1));
-        }
+        for(var i=0; i<data.length; i++) {    
+            if (data[i].pet == undefined && data[i].object == undefined) {
+                $('#intervention' + i + ' #type').html("Type : Incident");
+                $('#intervention' + i + ' #description').html(JSON.stringify(data[i].description).slice(1,JSON.stringify(data[i].description).length-1));
+                $('#intervention' + i + ' #horodate').html(JSON.stringify(data[i].creationDate).slice(1,JSON.stringify(data[i].creationDate).length-1));
+            }
 
-        $('#description').html(JSON.stringify(data.description)
-                .slice(1,JSON.stringify(data.description).length-1));
-        $('#horodate').html(JSON.stringify(data.creationDate)
-                .slice(1,JSON.stringify(data.creationDate).length-1));
+            else if (data[i].pet == undefined) {
+                $('#intervention' + i + ' #type').html("Type : Livraison");
+                $('#intervention' + i + ' #entreprise').html("Entreprise : " + JSON.stringify(data[i].company)
+                        .slice(1,JSON.stringify(data[i].company).length-1));
+                $('#intervention' + i + ' #objet').html("Objet : " + JSON.stringify(data[i].object)
+                        .slice(1,JSON.stringify(data[i].object).length-1));
+                $('#intervention' + i + ' #description').html(JSON.stringify(data[i].description).slice(1,JSON.stringify(data[i].description).length-1));
+                $('#intervention' + i + ' #horodate').html(JSON.stringify(data[i].creationDate).slice(1,JSON.stringify(data[i].creationDate).length-1));
+            }
+
+            else {
+                $('#intervention' + i + ' #intervention' + i + ' #type').html("Type : Animal");
+                $('#intervention' + i + ' #animal').html("Animal : " + JSON.stringify(data[i].pet).slice(1,JSON.stringify(data[i].pet).length-1));
+                $('#intervention' + i + ' #description').html(JSON.stringify(data[i].description).slice(1,JSON.stringify(data[i].description).length-1));
+                $('#intervention' + i + ' #horodate').html(JSON.stringify(data[i].creationDate).slice(1,JSON.stringify(data[i].creationDate).length-1));
+            }
+
+            
+        }
     });
 }
 
